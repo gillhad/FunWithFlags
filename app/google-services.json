@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "141813751684",
+    "project_id": "funwithflags-b6c78",
+    "storage_bucket": "funwithflags-b6c78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141813751684:android:e7089201d661a0529bc7d1",
+        "android_client_info": {
+          "package_name": "com.example.fun_with_flags"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141813751684-6to8m8ub1o6ivko7bcod0hjv96rkk5q3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJiZdGGl8bWTUyWk50ZpwMXp8GD4akJ5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141813751684-6to8m8ub1o6ivko7bcod0hjv96rkk5q3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

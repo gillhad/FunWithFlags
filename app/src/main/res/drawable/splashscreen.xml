@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/Pine_500"/>
+        <item
+            android:width="200px"
+            android:height="200px"
+            android:gravity="center">
+            <bitmap android:src="@drawable/flag_china"
+                />
+        </item>
+    <item
+        android:width="200dp"
+        android:height="200dp"
+        android:gravity="center">
+        <bitmap android:src="@drawable/flags_logo"
+
+            />
+    </item>
+
+
+</layer-list>
