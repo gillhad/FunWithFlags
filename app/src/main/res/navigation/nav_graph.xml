@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_menuFragment_to_flagFullWrite"
             app:destination="@id/flagFullWrite" />
+        <action
+            android:id="@+id/action_menuFragment_to_continentFlags"
+            app:destination="@id/continentFlags" />
     </fragment>
     <fragment
         android:id="@+id/flagFullWrite"
@@ -29,5 +32,12 @@
         android:id="@+id/continentFlags"
         android:name="com.example.fun_with_flags.ContinentFlags"
         android:label="fragment_continent_flags"
-        tools:layout="@layout/fragment_continent_flags" />
+        tools:layout="@layout/fragment_continent_flags" >
+        <action
+            android:id="@+id/action_continentFlags_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <argument
+            android:name="CONTINENT_NAME"
+            app:argType="string" />
+    </fragment>
 </navigation>

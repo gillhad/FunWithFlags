@@ -1,16 +1,16 @@
 package com.example.fun_with_flags
 
 import android.os.Bundle
+import android.view.ContextMenu
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
+private const val CONTINENT_NAME = "param1"
 /**
  * A simple [Fragment] subclass.
  * Use the [ContinentFlags.newInstance] factory method to
@@ -24,8 +24,7 @@ class ContinentFlags : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            param1 = it.getString(CONTINENT_NAME)
         }
     }
 
@@ -34,7 +33,20 @@ class ContinentFlags : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_continent_flags, container, false)
+        val view = inflater.inflate(R.layout.fragment_continent_flags, container, false)
+        val continentText: TextView = view.findViewById(R.id.continent_text_mode)
+
+        continentText.setText(CONTINENT_NAME)
+
+        return view
+
+    }
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
     }
 
     companion object {
@@ -51,8 +63,7 @@ class ContinentFlags : Fragment() {
         fun newInstance(param1: String, param2: String) =
             ContinentFlags().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(CONTINENT_NAME, param1)
                 }
             }
     }

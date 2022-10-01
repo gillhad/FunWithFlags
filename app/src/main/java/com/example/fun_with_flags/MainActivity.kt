@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     val db = Firebase.firestore
     var dispatcher = Dispatchers.IO
     var countries: ArrayList<Country> = ArrayList()
+    val gameMode:String = "All"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Capitole_preparation)
@@ -39,28 +40,17 @@ class MainActivity : AppCompatActivity() {
     }
 
 //            fun addCountries() : Country {
-//                var response = CountryList()
 //
-//
-//                    val countriesDb = db.collection("countries")
-//                        .get()
-//                        .addOnSuccessListener { documents ->
-//                            for (document in documents) {
-//                                countries.add(
-//                                    Country(
-//                                        name = "${document.get("name")}",
-//                                        continent = "${document.get("continent")}",
-//                                        flag = "${document.get("flag")}",
-//                                        null
-//                                    )
-//                                )
-//                                println("hay documentos")
-//                                println(document.get("name"))
-//                                println(countries.size)
-//                            }
-//                        }.addOnFailureListener { exception ->
-//                            println("no funciona algo")
-//                        }
+    ////Añadir paises
+//        val addcountrytodb = db.collection("countries")
+//            .document("Colombia")
+//            .set(hashMapOf(
+//                "name" to "Colombia",
+//                "flag" to "flag_colombia",
+//                "continent" to "America"
+//            ))
 
-            }
+
+
+}
 

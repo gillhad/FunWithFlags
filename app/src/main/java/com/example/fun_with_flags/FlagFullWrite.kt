@@ -1,9 +1,8 @@
 package com.example.fun_with_flags
 
+import android.app.ActionBar
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -33,12 +32,19 @@ class FlagFullWrite : Fragment() {
 
     private var param_country: String? = null
 
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
 
+    ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_flag_full_write, container, false)
 
@@ -46,6 +52,7 @@ class FlagFullWrite : Fragment() {
         val textFinal: TextView = view.findViewById(R.id.text_tv)
         val answer: EditText? = view?.findViewById(R.id.text_et)
         val flagView: ImageView = view.findViewById(R.id.flag_image)
+
 
         addCountries(flagView)
 
@@ -60,6 +67,8 @@ class FlagFullWrite : Fragment() {
 
         return view
     }
+
+
 
     private fun randomCurrentFlag(size: Int) {
 
@@ -100,18 +109,6 @@ class FlagFullWrite : Fragment() {
         return countriesCheck.size
 
 
-////Añadir paises
-//        val addcountrytodb = db.collection("countries")
-//            .document("Colombia")
-//            .set(hashMapOf(
-//                "name" to "Colombia",
-//                "flag" to "flag_colombia",
-//                "continent" to "America"
-//            ))
-
-
-//    countries.add(Country(name = "China", continent = "Asia", flag = "flag_china", closeFlags = null))
-//    countries.add(Country(name = "Nepal", continent = "Asia", flag = "flag_nepal", closeFlags = null))
 
     }
 
