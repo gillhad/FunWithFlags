@@ -9,6 +9,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import com.example.fun_with_flags.models.ContinentViewModel
+import com.example.fun_with_flags.models.Country
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +28,10 @@ class fragment_menu_show : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var menuFragment:MenuFragment = MenuFragment()
+    private var currentContinent: Int = 0
+    val continentsFlags: List<String> = listOf("continent_africa","continent_america","continent_asia","continent_europe","continent_oceania")
+    private val continentViewModel: ContinentViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,14 +52,66 @@ class fragment_menu_show : Fragment() {
        val rightButton:ImageButton = view.findViewById(R.id.continent_right)
        val leftButton:ImageButton = view.findViewById(R.id.continent_left)
         val imageFlag: ImageView = view.findViewById(R.id.continent_show_image)
-
-        rightButton.setOnClickListener(){
-            menuFragment.rightClick()
-        }
+        continentViewModel.selectItem(0)
 
         leftButton.setOnClickListener(){
-            menuFragment.leftClick()
+            var value:Int = continentViewModel.continentPosition.value!!
+            println("click izk")
+            if(value == continentsFlags.size-1){
+                value = 0
+                continentViewModel.selectItem(value)
+                imageFlag.setImageResource(resources.getIdentifier(
+               continentsFlags[continentViewModel.continentPosition.value!!],
+                "drawable",
+                activity?.packageName)
+            )
+            }else{
+                value++
+                continentViewModel.selectItem(value)
+                imageFlag.setImageResource(resources.getIdentifier(
+                    continentsFlags[continentViewModel.continentPosition.value!!],
+                    "drawable",
+                    activity?.packageName))
+            }
         }
+
+        rightButton.setOnClickListener(){
+            var value:Int = continentViewModel.continentPosition.value!!
+            println("click der")
+            if(value == continentsFlags.size-1){
+                continentViewModel.selectItem(0)
+                imageFlag.setImageResource(resources.getIdentifier(
+                    continentsFlags[continentViewModel.continentPosition.value!!],
+                    "drawable",
+                    activity?.packageName))
+            }else{
+                value++
+                continentViewModel.selectItem(value)
+                println("${continentViewModel.continentPosition.value!!}")
+                imageFlag.setImageResource(resources.getIdentifier(
+                    continentsFlags[continentViewModel.continentPosition.value!!],
+                    "drawable",
+                    activity?.packageName))
+            }
+        }
+
+//        rightButton.setOnClickListener(){
+//          currentContinent = menuFragment.rightClick()
+//            imageFlag.setImageResource(resources.getIdentifier(
+//               continentsFlags[currentContinent],
+//                "drawable",
+//                activity?.packageName)
+//            )
+//        }
+//
+//        leftButton.setOnClickListener(){
+//            currentContinent = menuFragment.leftClick()
+//            imageFlag.setImageResource(resources.getIdentifier(
+//                continentsFlags[currentContinent],
+//                "drawable",
+//                activity?.packageName)
+//            )
+//        }
 
 
 
@@ -65,6 +124,7 @@ class fragment_menu_show : Fragment() {
             "drawable",
             activity?.packageName))
     }
+
 
 
 

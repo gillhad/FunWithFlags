@@ -10,20 +10,22 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.fun_with_flags.models.ContinentViewModel
 import com.example.fun_with_flags.models.ModeEnum
 
 
 class MenuFragment : Fragment() {
 
-    val gameModes: List<ModeEnum> = listOf(ModeEnum.ALLGFLAGS,ModeEnum.CONTINENTFLAGS,ModeEnum.RANDOMFLAGS)
+    val gameModes: List<ModeEnum> = listOf(ModeEnum.ALLGFLAGS,ModeEnum.CONTINENTFLAGS)
     var currentGameMode: Int = 0
     var currentContinentPosition: Int = 0
     val continents: List<String> = listOf("Africa","America", "Asia","Europa","Oceania")
     val continentsFlags: List<String> = listOf("continent_africa","continent_america","continent_asia","continent_europa","conitnen_oceania")
-
-
+    private val continentViewModel:ContinentViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,41 +42,23 @@ class MenuFragment : Fragment() {
 
 
         gameStart.setOnClickListener(){
-            val action = MenuFragmentDirections.actionMenuFragmentToContinentFlags(continents[currentContinentPosition])
             when(currentGameMode){
                 0 -> findNavController().navigate(R.id.action_menuFragment_to_flagFullWrite)
-                1 -> findNavController().navigate(action)
+                1 -> {
+                    var value = continentViewModel.continentPosition.value
+                    //getQuantity()
+                    println(value)
+                    val action = MenuFragmentDirections.actionMenuFragmentToContinentFlags(continents[continentViewModel.continentPosition.value!!])
+                    findNavController().navigate(action)
+                }
                 2 -> GameModeSelection(gameMode,ModeEnum.RANDOMFLAGS)
             }
 
         }
 
-        if(leftButton.isVisible){
-            println("le doy al boton izk")
-            leftButton.setOnClickListener() {
-                if (currentContinentPosition == 0) {
-                    currentContinentPosition = continentsFlags.size
-                } else {
-                    currentContinentPosition--
-                }
-               // continentFlagFragment.changeContinent(imageFlag,continentsFlags[currentContinentPosition])
-            }
-        }
-
-        if(rightButton.isVisible){
-            println("le doy al boton izk")
-            if(currentContinentPosition == continentsFlags.size){
-                currentContinentPosition = 0
-            }else{
-                currentContinentPosition++
-            }
-
-            //continentFlagFragment.changeContinent(imageFlag,continentsFlags[currentContinentPosition])
-        }
-
         gameMode.setOnClickListener(){
 
-        if(currentGameMode == 2){
+        if(currentGameMode == gameModes.size-1){
             currentGameMode = 0
         }else{
             currentGameMode++
@@ -82,7 +66,13 @@ class MenuFragment : Fragment() {
 
 
             when(currentGameMode){
-                0 -> {GameModeSelection(gameMode,ModeEnum.ALLGFLAGS) }
+                0 -> {GameModeSelection(gameMode,ModeEnum.ALLGFLAGS)
+                    leftButton.isVisible = false
+                    rightButton.isVisible = false
+                    imageFlag.setImageResource(resources.getIdentifier("world",
+                        "drawable",
+                        activity?.packageName))
+                }
                 1 -> {GameModeSelection(gameMode,ModeEnum.CONTINENTFLAGS)
                     leftButton.isVisible = true
                     rightButton.isVisible = true
@@ -101,22 +91,40 @@ class MenuFragment : Fragment() {
         return view
     }
 
-    fun leftClick(){
-        if(currentContinentPosition == continentsFlags.size){
-            currentContinentPosition = 0
-        }else{
-            currentContinentPosition++
-        }
+    fun getQuantity():Int{
+        var value =  continentViewModel.continentPosition.value
+        println("el valor es ${continentViewModel.continentPosition.value}")
+        return value!!
+
     }
 
-    fun rightClick(){
-        println("le doy al boton izk")
-        if(currentContinentPosition == continentsFlags.size){
-            currentContinentPosition = 0
-        }else{
-            currentContinentPosition++
-        }
-    }
+//    fun leftClick():Int{
+//        if(currentContinentPosition == continentsFlags.size-1){
+//            currentContinentPosition = 0
+//            println(continents[currentContinentPosition])
+//            continentViewModel.selectItem(currentContinentPosition)
+//            return currentContinentPosition
+//        }else{
+//            currentContinentPosition++
+//            continentViewModel.selectItem(currentContinentPosition)
+//            println(continents[currentContinentPosition])
+//            return currentContinentPosition
+//        }
+//    }
+
+//    fun rightClick(): Int{
+//        if(currentContinentPosition == continentsFlags.size-1){
+//            currentContinentPosition = 0
+//            continentViewModel.selectItem(currentContinentPosition)
+//            println(continents[currentContinentPosition])
+//            return currentContinentPosition
+//        }else{
+//            currentContinentPosition++
+//            continentViewModel.selectItem(currentContinentPosition)
+//            println(continents[currentContinentPosition])
+//            return currentContinentPosition
+//        }
+//    }
 
     private fun GameModeSelection(modeButton:Button,mode: ModeEnum){
         when(mode){
@@ -127,10 +135,6 @@ class MenuFragment : Fragment() {
 
     }
 
-    private fun continentArgument(){
-        var bundle = bundleOf(continents[currentContinentPosition] to ContinentFlags)
 
-
-    }
 
 }

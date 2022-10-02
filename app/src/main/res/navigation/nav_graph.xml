@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.example.fun_with_flags.MenuFragment"
-        android:label="fragment_menu"
+        android:label="@string/FWF"
         tools:layout="@layout/fragment_menu" >
         <action
             android:id="@+id/action_menuFragment_to_flagFullWrite"
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/flagFullWrite"
         android:name="com.example.fun_with_flags.FlagFullWrite"
-        android:label="fragment_flag_full_write"
+        android:label="@string/all_flags"
         tools:layout="@layout/fragment_flag_full_write" >
         <action
             android:id="@+id/action_flagFullWrite_to_menuFragment"
@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/continentFlags"
         android:name="com.example.fun_with_flags.ContinentFlags"
-        android:label="fragment_continent_flags"
+        android:label="@string/con_flags"
         tools:layout="@layout/fragment_continent_flags" >
         <action
             android:id="@+id/action_continentFlags_to_menuFragment"

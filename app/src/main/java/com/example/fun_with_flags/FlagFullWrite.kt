@@ -19,8 +19,7 @@ import kotlin.random.Random
 
 class FlagFullWrite : Fragment() {
 
-    var questions: ArrayList<String> = ArrayList()
-    var flags: ArrayList<Int> = ArrayList()
+
     var currentFlag = 0
     var countries: ArrayList<Country> = ArrayList()
     var countriesCheck: ArrayList<Country> = ArrayList()

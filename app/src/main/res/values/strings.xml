@@ -7,4 +7,7 @@
     <string name="action_settings">dunno</string>
     <string name="modo">ALL FLAGS</string>
     <string name="mode_text">ALL FLAGS</string>
+    <string name="FWF">FUN WITH FLAGS</string>
+    <string name="all_flags">BANDERAS DEL MUNDO</string>
+    <string name="con_flags">BANDERAS DE CONTINENTE</string>
 </resources>
