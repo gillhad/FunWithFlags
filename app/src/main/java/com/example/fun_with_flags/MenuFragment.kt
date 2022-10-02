@@ -45,11 +45,12 @@ class MenuFragment : Fragment() {
             when(currentGameMode){
                 0 -> findNavController().navigate(R.id.action_menuFragment_to_flagFullWrite)
                 1 -> {
-                    var value = continentViewModel.continentPosition.value
+
+                    var value = continentViewModel.getItem()
                     //getQuantity()
                     println(value)
-                    val action = MenuFragmentDirections.actionMenuFragmentToContinentFlags(continents[continentViewModel.continentPosition.value!!])
-                    findNavController().navigate(action)
+
+                    findNavController().navigate(R.id.action_menuFragment_to_continentFlags)
                 }
                 2 -> GameModeSelection(gameMode,ModeEnum.RANDOMFLAGS)
             }

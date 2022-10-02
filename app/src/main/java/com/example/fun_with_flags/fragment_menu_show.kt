@@ -9,7 +9,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.fun_with_flags.models.ContinentViewModel
 import com.example.fun_with_flags.models.Country
 
@@ -30,7 +32,7 @@ class fragment_menu_show : Fragment() {
     private var menuFragment:MenuFragment = MenuFragment()
     private var currentContinent: Int = 0
     val continentsFlags: List<String> = listOf("continent_africa","continent_america","continent_asia","continent_europe","continent_oceania")
-    private val continentViewModel: ContinentViewModel by viewModels()
+    private val continentViewModel: ContinentViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +81,9 @@ class fragment_menu_show : Fragment() {
             var value:Int = continentViewModel.continentPosition.value!!
             println("click der")
             if(value == continentsFlags.size-1){
+//                continentViewModel.continentPosition.observe(viewLifecycleOwner, Observer {
+//                    _ -> continentViewModel.selectItem(2)
+//                })
                 continentViewModel.selectItem(0)
                 imageFlag.setImageResource(resources.getIdentifier(
                     continentsFlags[continentViewModel.continentPosition.value!!],

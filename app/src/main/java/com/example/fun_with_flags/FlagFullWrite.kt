@@ -117,10 +117,12 @@ class FlagFullWrite : Fragment() {
         println(checkText)
         if (checkText.equals(countriesCheck[currentFlag].name)) {
             textCheck.text = "Correcto"
-            GlobalScope.launch {
-                nextCountry(flagView)
-            }
+            nextCountry(flagView)
             answer.setText("")
+            GlobalScope.launch {
+                Thread.sleep(1000)
+                textCheck.setText("")
+            }
         } else {
             textCheck.text = "Incorrecto"
         }
