@@ -10,4 +10,7 @@
     <string name="FWF">FUN WITH FLAGS</string>
     <string name="all_flags">BANDERAS DEL MUNDO</string>
     <string name="con_flags">BANDERAS DE CONTINENTE</string>
+    <string name="world">MUNDO</string>
+    <string name="continents">CONTINENTES</string>
+    <string name="random_flags">ALEATORIAS</string>
 </resources>

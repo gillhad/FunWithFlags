@@ -92,46 +92,13 @@ class MenuFragment : Fragment() {
         return view
     }
 
-    fun getQuantity():Int{
-        var value =  continentViewModel.continentPosition.value
-        println("el valor es ${continentViewModel.continentPosition.value}")
-        return value!!
 
-    }
-
-//    fun leftClick():Int{
-//        if(currentContinentPosition == continentsFlags.size-1){
-//            currentContinentPosition = 0
-//            println(continents[currentContinentPosition])
-//            continentViewModel.selectItem(currentContinentPosition)
-//            return currentContinentPosition
-//        }else{
-//            currentContinentPosition++
-//            continentViewModel.selectItem(currentContinentPosition)
-//            println(continents[currentContinentPosition])
-//            return currentContinentPosition
-//        }
-//    }
-
-//    fun rightClick(): Int{
-//        if(currentContinentPosition == continentsFlags.size-1){
-//            currentContinentPosition = 0
-//            continentViewModel.selectItem(currentContinentPosition)
-//            println(continents[currentContinentPosition])
-//            return currentContinentPosition
-//        }else{
-//            currentContinentPosition++
-//            continentViewModel.selectItem(currentContinentPosition)
-//            println(continents[currentContinentPosition])
-//            return currentContinentPosition
-//        }
-//    }
 
     private fun GameModeSelection(modeButton:Button,mode: ModeEnum){
         when(mode){
-            ModeEnum.ALLGFLAGS-> modeButton.setText("ALL FLAGS")
-            ModeEnum.CONTINENTFLAGS-> modeButton.setText("CONTINENT FLAGS")
-            ModeEnum.RANDOMFLAGS-> modeButton.setText("RANDOM FLAGS")
+            ModeEnum.ALLGFLAGS-> modeButton.setText(R.string.world)
+            ModeEnum.CONTINENTFLAGS-> modeButton.setText(R.string.continents)
+            ModeEnum.RANDOMFLAGS-> modeButton.setText(R.string.random_flags)
         }
 
     }
