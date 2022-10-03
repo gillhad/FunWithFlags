@@ -10,15 +10,16 @@ class ContinentViewModel: ViewModel() {
 
     fun selectItem(pos: Int) {
         mutableSelectedItem.value = pos
-        println("El valor se ha actualizado es:")
-        println(mutableSelectedItem.value)
     }
 
-    fun getItem(): Int{
-        println("El valor actual es:")
-        println(mutableSelectedItem.value)
-        return mutableSelectedItem.value!!
-    }
+}
 
+class CheckMenuModeViewModel: ViewModel(){
+    private val mutableSelectionItem = MutableLiveData<String>()
+    val checkMode: LiveData<String> = mutableSelectionItem
+
+    fun selectiItem(type: String){
+        mutableSelectionItem.value = type
+    }
 
 }

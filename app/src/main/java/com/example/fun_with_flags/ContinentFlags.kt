@@ -28,15 +28,7 @@ import kotlin.random.Random
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val CONTINENT_NAME = "param1"
-private val db = Firebase.firestore
-private var dispatcher = Dispatchers.IO
-var currentFlag = 0
-var countries: ArrayList<Country> = ArrayList()
-var countriesCheck: ArrayList<Country> = ArrayList()
-var gameEnded = false
-var currentPoints = 0
-var currentTime = 0
-var currentContinent = ""
+
 
 /**
  * A simple [Fragment] subclass.
@@ -47,8 +39,17 @@ class ContinentFlags : Fragment() {
 
     private val continentViewModel:ContinentViewModel by activityViewModels()
     val continents: List<String> = listOf("Africa","America", "Asia","Europa","Oceania")
-    val continentsFlags: List<String> = listOf("continent_africa","continent_america","continent_asia","continent_europa","conitnen_oceania")
     var currentContinent:String =""
+    private val db = Firebase.firestore
+    private var dispatcher = Dispatchers.IO
+    var currentFlag = 0
+    var countries: ArrayList<Country> = ArrayList()
+    var countriesCheck: ArrayList<Country> = ArrayList()
+    var gameEnded = false
+    var currentPoints = 0
+    var currentTime = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -67,9 +68,7 @@ class ContinentFlags : Fragment() {
         val checkButton:Button = view.findViewById(R.id.btn_check_continent)
         val textFinal: TextView = view.findViewById(R.id.text_tv_continent)
         val answer: EditText? = view?.findViewById(R.id.text_et_continent)
-        continentViewModel.continentPosition.observe(viewLifecycleOwner, Observer{
-            set -> "Asia"
-        })
+
         println(continentViewModel.continentPosition.value)
         currentContinent = continents[continentViewModel.continentPosition.value!!]
 

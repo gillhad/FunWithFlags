@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_menuFragment_to_continentFlags"
             app:destination="@id/continentFlags" />
+        <action
+            android:id="@+id/action_menuFragment_to_checkFlagLevel"
+            app:destination="@id/checkFlagLevel" />
     </fragment>
     <fragment
         android:id="@+id/flagFullWrite"
@@ -39,5 +42,14 @@
         <argument
             android:name="CONTINENT_NAME"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkFlagLevel"
+        android:name="com.example.fun_with_flags.CheckFlagLevel"
+        android:label="ELIGE LA BANDERA"
+        tools:layout="@layout/fragment_check_flag_level" >
+        <action
+            android:id="@+id/action_checkFlagLevel_to_menuFragment"
+            app:destination="@id/menuFragment" />
     </fragment>
 </navigation>

@@ -7,25 +7,31 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import com.example.fun_with_flags.models.CheckMenuModeViewModel
 import com.example.fun_with_flags.models.ContinentViewModel
 import com.example.fun_with_flags.models.ModeEnum
 
 
 class MenuFragment : Fragment() {
 
-    val gameModes: List<ModeEnum> = listOf(ModeEnum.ALLGFLAGS,ModeEnum.CONTINENTFLAGS)
+    val gameModes: List<ModeEnum> = listOf(ModeEnum.ALLGFLAGS, ModeEnum.CONTINENTFLAGS)
     var currentGameMode: Int = 0
     var currentContinentPosition: Int = 0
-    val continents: List<String> = listOf("Africa","America", "Asia","Europa","Oceania")
-    val continentsFlags: List<String> = listOf("continent_africa","continent_america","continent_asia","continent_europa","conitnen_oceania")
-    private val continentViewModel:ContinentViewModel by activityViewModels()
+    var checkMode:Boolean = false
+    val continents: List<String> = listOf("Africa", "America", "Asia", "Europa", "Oceania")
+    val continentsFlags: List<String> = listOf(
+        "continent_africa",
+        "continent_america",
+        "continent_asia",
+        "continent_europa",
+        "continent_oceania"
+    )
+    private val continentViewModel: ContinentViewModel by activityViewModels()
+    private val checkMenuModeViewModel: CheckMenuModeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,59 +39,31 @@ class MenuFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
-        val gameStart:Button = view.findViewById(R.id.start_btn)
-        val gameMode:Button = view.findViewById(R.id.game_mode)
+        val gameStart: Button = view.findViewById(R.id.start_btn)
+        val gameMode: Button = view.findViewById(R.id.game_mode)
+        val gameDiff: Button = view.findViewById(R.id.game_mode_diff)
 
-        val leftButton:ImageButton = view.findViewById(R.id.continent_left)
-        val rightButton:ImageButton = view.findViewById(R.id.continent_right)
-        val imageFlag:ImageView = view.findViewById(R.id.continent_show_image)
+        val leftButton: ImageButton = view.findViewById(R.id.continent_left)
+        val rightButton: ImageButton = view.findViewById(R.id.continent_right)
+        val imageFlag: ImageView = view.findViewById(R.id.continent_show_image)
 
 
-        gameStart.setOnClickListener(){
-            when(currentGameMode){
-                0 -> findNavController().navigate(R.id.action_menuFragment_to_flagFullWrite)
-                1 -> {
 
-                    var value = continentViewModel.getItem()
-                    //getQuantity()
-                    println(value)
-
-                    findNavController().navigate(R.id.action_menuFragment_to_continentFlags)
-                }
-                2 -> GameModeSelection(gameMode,ModeEnum.RANDOMFLAGS)
-            }
-
+        /**
+         * BUTTON FUNCTIONS
+         * */
+        gameStart.setOnClickListener() {
+           NavModeStart(gameMode)
         }
 
-        gameMode.setOnClickListener(){
-
-        if(currentGameMode == gameModes.size-1){
-            currentGameMode = 0
-        }else{
-            currentGameMode++
+        gameMode.setOnClickListener() {
+            GameModeController(gameMode,leftButton,rightButton,imageFlag)
         }
 
-
-            when(currentGameMode){
-                0 -> {GameModeSelection(gameMode,ModeEnum.ALLGFLAGS)
-                    leftButton.isVisible = false
-                    rightButton.isVisible = false
-                    imageFlag.setImageResource(resources.getIdentifier("world",
-                        "drawable",
-                        activity?.packageName))
-                }
-                1 -> {GameModeSelection(gameMode,ModeEnum.CONTINENTFLAGS)
-                    leftButton.isVisible = true
-                    rightButton.isVisible = true
-                    imageFlag.setImageResource(resources.getIdentifier(continentsFlags[currentContinentPosition],
-                        "drawable",
-                        activity?.packageName))
-                }
-                2 -> GameModeSelection(gameMode,ModeEnum.RANDOMFLAGS)
-            }
-
-
+        gameDiff.setOnClickListener(){
+DifficultSelection()
         }
+
 
 
 
@@ -93,16 +71,94 @@ class MenuFragment : Fragment() {
     }
 
 
-
-    private fun GameModeSelection(modeButton:Button,mode: ModeEnum){
-        when(mode){
-            ModeEnum.ALLGFLAGS-> modeButton.setText(R.string.world)
-            ModeEnum.CONTINENTFLAGS-> modeButton.setText(R.string.continents)
-            ModeEnum.RANDOMFLAGS-> modeButton.setText(R.string.random_flags)
+    /**
+     * Game Modes Selection
+     *
+     * */
+    private fun GameModeSelection(modeButton: Button, mode: ModeEnum) {
+        when (mode) {
+            ModeEnum.ALLGFLAGS -> modeButton.setText(R.string.world)
+            ModeEnum.CONTINENTFLAGS -> modeButton.setText(R.string.continents)
         }
 
     }
 
+    private fun GameModeController(gameMode:Button,leftButton: ImageButton, rightButton:ImageButton, imageFlag:ImageView) {
+        if (currentGameMode == gameModes.size - 1) {
+            currentGameMode = 0
+            checkMenuModeViewModel.selectiItem("world")
+        } else {
+            checkMenuModeViewModel.selectiItem("continente")
+            currentGameMode++
+        }
 
+
+        when (currentGameMode) {
+            0 -> {
+                GameModeSelection(gameMode, ModeEnum.ALLGFLAGS)
+                leftButton.isVisible = false
+                rightButton.isVisible = false
+                imageFlag.setImageResource(
+                    resources.getIdentifier(
+                        "world",
+                        "drawable",
+                        activity?.packageName
+                    )
+                )
+            }
+            1 -> {
+                GameModeSelection(gameMode, ModeEnum.CONTINENTFLAGS)
+                leftButton.isVisible = true
+                rightButton.isVisible = true
+                imageFlag.setImageResource(
+                    resources.getIdentifier(
+                        continentsFlags[currentContinentPosition],
+                        "drawable",
+                        activity?.packageName
+                    )
+                )
+            }
+
+
+        }
+    }
+
+
+    /**
+     *Difficult selection
+     *
+     */
+
+    private fun DifficultSelection() {
+       checkMode = !checkMode
+    }
+
+
+
+    /**
+     * NAVIGATION
+     * **/
+
+    private fun NavModeStart(gameMode: Button) {
+        when (currentGameMode) {
+            0 -> {
+                if (!checkMode) {
+                    findNavController().navigate(R.id.action_menuFragment_to_flagFullWrite)
+                } else {
+                    findNavController().navigate(R.id.action_menuFragment_to_checkFlagLevel)
+                }
+
+            }
+            1 -> {
+                if (!checkMode) {
+                    findNavController().navigate(R.id.action_menuFragment_to_continentFlags)
+                } else {
+                    findNavController().navigate(R.id.action_menuFragment_to_checkFlagLevel)
+                }
+
+            }
+
+        }
+    }
 
 }

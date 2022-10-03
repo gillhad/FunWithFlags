@@ -13,4 +13,5 @@
     <string name="world">MUNDO</string>
     <string name="continents">CONTINENTES</string>
     <string name="random_flags">ALEATORIAS</string>
+    <string name="diff_lvl">ESCRIBE!</string>
 </resources>

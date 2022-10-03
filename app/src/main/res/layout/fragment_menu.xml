@@ -42,5 +42,11 @@
         android:text="@string/modo"
         android:layout_gravity="center"/>
 
+    <Button
+        android:id="@+id/game_mode_diff"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/diff_lvl"
+        android:layout_gravity="center"/>
 
 </LinearLayout>
