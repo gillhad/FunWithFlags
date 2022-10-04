@@ -106,7 +106,7 @@ class CheckFlagLevel : Fragment() {
                     println("no funciona algo")
                 }
         }
-        "continent" -> {
+        "continente" -> {
             println("ESTAMOS JUGANDO CON UN CONTINENTE")
             val countriesDb = db.collection("countries")
                 .whereGreaterThanOrEqualTo("continent",currentContinent)
@@ -131,6 +131,7 @@ class CheckFlagLevel : Fragment() {
                     countriesCheck.addAll(countries)
                     randomCurrentFlag()
                     reDraw(view)
+                    buttonFlagText(buttons)
 
                 }.addOnFailureListener { exception ->
                     println("no funciona algo")
