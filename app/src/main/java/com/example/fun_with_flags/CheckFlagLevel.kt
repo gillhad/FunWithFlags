@@ -12,9 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.fun_with_flags.models.CheckMenuModeViewModel
-import com.example.fun_with_flags.models.ContinentViewModel
-import com.example.fun_with_flags.models.Country
+import com.example.fun_with_flags.models.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.GlobalScope
@@ -33,6 +31,8 @@ class CheckFlagLevel : Fragment() {
     var countries: ArrayList<Country> = ArrayList()
     var countriesCheck: ArrayList<Country> = ArrayList()
     val continents: List<String> = listOf("Africa", "America", "Asia", "Europa", "Oceania")
+    val buttons: ArrayList<Button> = ArrayList()
+
     var gameEnded = false
     var currentPoints = 0
     var currentTime = 0
@@ -52,8 +52,13 @@ class CheckFlagLevel : Fragment() {
 
         typeMode = modeTypeViewer.checkMode.value!!
         currentContinent = continents[continentViewer.continentPosition.value!!]
+        buttons.add(checkButton1)
+        buttons.add(checkButton2)
+        buttons.add(checkButton3)
+        buttons.add(checkButton4)
 
         addCountries(flagView, typeMode)
+
 
         checkButton1.setOnClickListener(){
             checkIfCorrect(checkButton1,flagView)
@@ -71,16 +76,15 @@ class CheckFlagLevel : Fragment() {
         return view
     }
 
+
     fun addCountries(view: ImageView, mode:String): Int {
     when(mode){
         "world" -> {
+            println("estamos juganod con todo el mundo")
             val countriesDb = db.collection("countries")
                 .get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
-                        println("el documento es:")
-                        println(document.get("continent"))
-                        if(document.get("continent")==currentContinent) {
                             countries.add(
                                 Country(
                                     name = "${document.get("name")}",
@@ -89,19 +93,21 @@ class CheckFlagLevel : Fragment() {
                                     null
                                 )
                             )
-                        }
-                        println("+1")
+                        println("El tamaño de paises actual es:")
+                        println(countries.size)
                     }
                     println(countries[0])
                     countriesCheck.addAll(countries)
-                    randomCurrentFlag(countriesCheck.size)
+                    randomCurrentFlag()
                     reDraw(view)
+                    buttonFlagText(buttons)
 
                 }.addOnFailureListener { exception ->
                     println("no funciona algo")
                 }
         }
         "continent" -> {
+            println("ESTAMOS JUGANDO CON UN CONTINENTE")
             val countriesDb = db.collection("countries")
                 .whereGreaterThanOrEqualTo("continent",currentContinent)
                 .get()
@@ -123,7 +129,7 @@ class CheckFlagLevel : Fragment() {
                     }
                     println(countries[0])
                     countriesCheck.addAll(countries)
-                    randomCurrentFlag(countriesCheck.size)
+                    randomCurrentFlag()
                     reDraw(view)
 
                 }.addOnFailureListener { exception ->
@@ -134,13 +140,13 @@ class CheckFlagLevel : Fragment() {
         return countriesCheck.size
     }
 
-    private fun randomCurrentFlag(size: Int) {
-
-        println("hay ${size} paises")
-        val rand: Int = Random.nextInt(0, size)
+    //Crea un Int random para seleccionar bandera
+    private fun randomCurrentFlag() {
+        val rand: Int = Random.nextInt(0, countriesCheck.size)
         currentFlag = rand
     }
 
+    //Dibuja la bandera
     fun reDraw(view: ImageView) {
         view.setImageResource(
             resources.getIdentifier(
@@ -151,28 +157,12 @@ class CheckFlagLevel : Fragment() {
         )
     }
 
-    fun checkAnswer(textCheck: TextView, answer: EditText, flagView: ImageView) {
-        val checkText = answer?.text.toString()
-        println(checkText)
-        if (checkText.equals(countriesCheck[currentFlag].name)) {
-            textCheck.text = "Correcto"
-            nextCountry(flagView)
-            answer.setText("")
-            GlobalScope.launch {
-                Thread.sleep(1000)
-                textCheck.setText("")
-            }
-
-        } else {
-            textCheck.text = "Incorrecto"
-        }
-    }
-
+    //Pasos tras acertar el pais
     private fun nextCountry(flagView: ImageView) {
         deletePosition()
         gameEnded()
         if (!gameEnded) {
-            randomCurrentFlag(countriesCheck.size)
+            randomCurrentFlag()
             Thread.sleep(500)
             reDraw(flagView)
         } else {
@@ -181,10 +171,12 @@ class CheckFlagLevel : Fragment() {
 
     }
 
+    //elimina la bandera cuando se acierta
     private fun deletePosition() {
         countriesCheck.removeAt(currentFlag)
     }
 
+    //Termina el juego y te devuelve a la pantalla principal
     private fun gameEnded() {
         println("quedan ${countriesCheck.size} paises")
         if (countriesCheck.size == 0) {
@@ -195,17 +187,58 @@ class CheckFlagLevel : Fragment() {
         }
     }
 
+    //Revisa si la respuesta es correcta, pinta la celda según si es correcta o no
     fun checkIfCorrect(btn:Button, flagView: ImageView){
-        if(btn.text==currentContinent){
-            btn.setBackgroundColor(R.color.teal_700)
+        if(btn.text==countriesCheck[currentFlag].name){
+            btn.setBackgroundColor(resources.getColor(R.color.purple_500))
             Thread.sleep(200)
             nextCountry(flagView)
+            buttonFlagText(buttons)
+
         }else{
-            btn.setBackgroundColor(R.color.Orange_700)
+            println("incorrecto")
+            btn.setBackgroundColor(resources.getColor(R.color.Orange_700))
         }
 
     }
 
+    //Añade los textos de cada botón
+    fun buttonFlagText(btn: ArrayList<Button>){
+        var levelFlags: ArrayList<Country> =  ArrayList()
+        levelFlags.clear()
+        levelFlags.add(countriesCheck[currentFlag])
+        levelFlags = getNewFlag(levelFlags)
+        levelFlags.shuffle()
+        var i = 0
+        for(but in btn){
+            but.setText(levelFlags[i].name)
+            i++
+        }
+        resetButtons(buttons)
+    }
+
+    fun getNewFlag(levelFlags: ArrayList<Country>) :  ArrayList<Country>{
+        var rand: Int= 0
+        println(countries.size)
+        for (i in 1..3) {
+            do {
+                rand = Random.nextInt(0, countries.size)
+                println("el pais nuevo de la lista es ${countries[rand]}")
+
+            } while (levelFlags.contains(countries[rand]))
+            levelFlags.add(countries[rand])
+        }
+        println("el total de paises en el listado es ${levelFlags.size}")
+        return  levelFlags
+    }
+
+    fun resetButtons(but: ArrayList<Button>){
+        println("resetea los botones")
+        for(btn in but){
+            btn.setBackgroundColor(resources.getColor(R.color.Pine_700))
+        }
+
+    }
 
 
 }

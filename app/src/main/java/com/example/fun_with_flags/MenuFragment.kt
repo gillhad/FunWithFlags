@@ -47,7 +47,7 @@ class MenuFragment : Fragment() {
         val rightButton: ImageButton = view.findViewById(R.id.continent_right)
         val imageFlag: ImageView = view.findViewById(R.id.continent_show_image)
 
-
+        checkMenuModeViewModel.selectiItem("world")
 
         /**
          * BUTTON FUNCTIONS
@@ -60,8 +60,13 @@ class MenuFragment : Fragment() {
             GameModeController(gameMode,leftButton,rightButton,imageFlag)
         }
 
-        gameDiff.setOnClickListener(){
-DifficultSelection()
+        gameDiff.setOnClickListener() {
+            DifficultSelection()
+            if (checkMode) {
+                gameDiff.setText("CHECK")
+            } else {
+                gameDiff.setText("ESCRIBE")
+            }
         }
 
 
@@ -87,8 +92,10 @@ DifficultSelection()
         if (currentGameMode == gameModes.size - 1) {
             currentGameMode = 0
             checkMenuModeViewModel.selectiItem("world")
+            println(checkMenuModeViewModel.checkMode.value)
         } else {
             checkMenuModeViewModel.selectiItem("continente")
+            println(checkMenuModeViewModel.checkMode.value)
             currentGameMode++
         }
 
